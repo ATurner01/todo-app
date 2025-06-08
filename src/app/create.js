@@ -1,27 +1,40 @@
 'use client';
 
-function CreateTaskForm({ onSubmit }) {
+import { useState } from 'react';
+import { Task } from './todo';
+
+function CreateTaskForm({ title, description, onSubmit, onTitleChange,       onDescriptionChange }) {
     return (
         <form className="flex flex-col items-center justify-center border p-4 rounded px-16">
+
             <div className="border-b mb-4">
                 <h1 className="text-4xl font-bold mb-6">Create Task</h1>
             </div>
-            <input name="title" type="text" placeholder="Task Title" className="mb-4 p-2 border rounded w-full" />
-            <textarea name="description" placeholder="Task Description" className="mb-4 p-2 border rounded w-full"></textarea>
+
+            <input name="title" type="text" placeholder="Task Title" className="mb-4 p-2 border rounded w-full" value={title} onChange={(e) => onTitleChange(e.target.value)} />
+
+            <textarea name="description" placeholder="Task Description" className="mb-4 p-2 border rounded w-full" value={description} onChange={(e) => onDescriptionChange(e.target.value)}></textarea>
+
             <button type="submit" className="bg-blue-500 text-white p-2 rounded" onClick={onSubmit}>Create Task</button>
         </form>
     );
 }
 
 export function CreateTask() {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
     function handleSubmit() {
         console.log("Create button clicked");
+        console.log("Title:", title);
+        console.log("Description:", description);
+        setTitle('');
+        setDescription('');
     }
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <CreateTaskForm onSubmit={handleSubmit}/>
+            <CreateTaskForm title={title} description={description} onSubmit={handleSubmit} onTitleChange={setTitle} onDescriptionChange={setDescription} />
         </div>
     );
 }
