@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useRef } from "react";
 
 export function Task({ title, description }) {
     return (
@@ -12,6 +13,19 @@ export function Task({ title, description }) {
 }
 
 export function TaskList({ tasks }) {
+    const tasksList = useRef([]);
+
+    useEffect(() => {
+        fetch('/api/tasks')
+            .then(response => response.json())
+            .then(data => {
+                tasksList.current = data.map(task => task);
+            })
+            .catch(error => console.error('Error fetching tasks:', error));
+
+            console.log('Tasks fetched:', tasksList.current);
+    }, []);
+
     return (
         <div className="flex flex-col items-center justify-center">
             <h1 className="text-4xl font-bold mb-6 underline">Task List</h1>
