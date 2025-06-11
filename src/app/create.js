@@ -24,9 +24,28 @@ export function CreateTask() {
     const [description, setDescription] = useState('');
 
     function handleSubmit() {
-        console.log("Create button clicked");
-        console.log("Title:", title);
-        console.log("Description:", description);
+
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        const body = JSON.stringify({ 
+                                    title: title, 
+                                    description: description 
+                                    });
+
+        const res = fetch('api/tasks', {
+            method: 'POST',
+            headers: headers,
+            body: body
+        });
+
+        if (!res.ok) {""
+            console.error('Failed to create task: ', res.status);
+            return;
+        }
+
+        console.log(res.status, 'Task created successfully');
+        
         setTitle('');
         setDescription('');
     }

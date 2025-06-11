@@ -17,13 +17,15 @@ export function TaskList({ tasks }) {
 
     useEffect(() => {
         fetch('/api/tasks')
-            .then(response => response.json())
-            .then(data => {
-                tasksList.current = data.map(task => task);
+            .then((response) => response.json())
+            .then((data) => {
+                console
+                tasksList.current = data.map((task) => (
+                    [task.title, task.description]
+                ));
             })
-            .catch(error => console.error('Error fetching tasks:', error));
-
-            console.log('Tasks fetched:', tasksList.current);
+        
+        console.log('Tasks fetched:', tasksList.current);
     }, []);
 
     return (
