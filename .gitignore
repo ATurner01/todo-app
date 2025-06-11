@@ -24,6 +24,7 @@
 .DS_Store
 *.pem
 overview.png
+*.db
 
 # debug
 npm-debug.log*
