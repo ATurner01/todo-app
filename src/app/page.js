@@ -1,18 +1,10 @@
-'use client';
-
 import { TaskList } from "./todo";
 import { CreateTask } from "./create";
-import { useState, useEffect } from "react";
+import db from "@/lib/db";
 
 
 export default function TodoApp() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/tasks')
-    .then((response) => response.json())
-    .then((data) => setTasks(data));
-  }, []);
+  const tasks = db.prepare('SELECT * FROM tasks').all();
               
   return (
     <div className="flex flex-row justify-evenly bg-gray-100">

@@ -2,6 +2,7 @@
 
 import db from '@/lib/db';
 
+// API routes not needed for server actions, but keeping incase we want API calls in the future
 export async function GET() {
 
     const stmt = db.prepare('SELECT * FROM tasks');
