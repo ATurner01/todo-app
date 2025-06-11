@@ -25,8 +25,8 @@ export function TaskList() {
         <div className="flex flex-col items-center justify-center">
             <h1 className="text-4xl font-bold mb-6 underline">Task List</h1>
             <ul className="list-none">
-                {tasks.map((task, index) => (
-                    <li key={index} className="mb-10">
+                {tasks.map((task, _) => (
+                    <li key={task.id} className="mb-10">
                         <Task title={task.title} description={task.description} />
                     </li>
                 ))}
