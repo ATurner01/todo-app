@@ -19,7 +19,7 @@ function CreateTaskForm({ title, description, onSubmit, onTitleChange,       onD
     );
 }
 
-export function CreateTask() {
+export function CreateTask( { onUpdate }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 

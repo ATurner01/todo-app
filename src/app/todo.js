@@ -1,6 +1,3 @@
-'use client';
-import { useEffect, useState } from "react";
-
 export function Task({ title, description }) {
     return (
         <div className="flex flex-col items-center justify-center border p-4 rounded px-16">
@@ -12,14 +9,7 @@ export function Task({ title, description }) {
     );
 }
 
-export function TaskList() {
-    const [tasks, setTasks] = useState([]);
-
-    useEffect(() => {
-        fetch('/api/tasks')
-            .then((response) => response.json())
-            .then((data) => setTasks(data))
-    }, []);
+export function TaskList( { tasks } ) {
 
     return (
         <div className="flex flex-col items-center justify-center">
