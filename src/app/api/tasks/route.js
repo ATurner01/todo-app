@@ -1,8 +1,9 @@
-import { getTasks, createTask } from '@/lib/db';
+import db from '@/lib/db';
 
 export async function GET() {
 
-    const tasks = getTasks();
+    const stmt = db.prepare('SELECT * FROM tasks');
+    const tasks = stmt.all();
     
     return new Response(JSON.stringify(tasks), {
         headers: { 'Content-Type': 'application/json' }
@@ -12,7 +13,9 @@ export async function GET() {
 export async function POST(request) {
     
     const { title, description } = await request.json();
-    createTask(String(title), String(description));
+    const stmt = db.prepare('INSERT INTO tasks (title, description) VALUES (?, ?)')
+
+    stmt.run(title, description);
 
     return new Response(JSON.stringify({ message: 'Task created successfully' }), {
         headers: { 'Content-Type': 'application/json' }
