@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export function Task({ title, description }) {
     return (
@@ -12,20 +12,13 @@ export function Task({ title, description }) {
     );
 }
 
-export function TaskList({ tasks }) {
-    const tasksList = useRef([]);
+export function TaskList() {
+    const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         fetch('/api/tasks')
             .then((response) => response.json())
-            .then((data) => {
-                console
-                tasksList.current = data.map((task) => (
-                    [task.title, task.description]
-                ));
-            })
-        
-        console.log('Tasks fetched:', tasksList.current);
+            .then((data) => setTasks(data))
     }, []);
 
     return (
@@ -34,7 +27,7 @@ export function TaskList({ tasks }) {
             <ul className="list-none">
                 {tasks.map((task, index) => (
                     <li key={index} className="mb-10">
-                        {task}
+                        <Task title={task.title} description={task.description} />
                     </li>
                 ))}
             </ul>

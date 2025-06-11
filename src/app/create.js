@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 function CreateTaskForm({ title, description, onSubmit, onTitleChange,       onDescriptionChange }) {
     return (
-        <form className="flex flex-col items-center justify-center border p-4 rounded px-16">
+        <form className="flex flex-col items-center justify-center border p-4 rounded px-16" method="POST" onSubmit={onSubmit}>
 
             <div className="border-b mb-4">
                 <h1 className="text-4xl font-bold mb-6">Create Task</h1>
@@ -14,7 +14,7 @@ function CreateTaskForm({ title, description, onSubmit, onTitleChange,       onD
 
             <textarea name="description" placeholder="Task Description" className="mb-4 p-2 border rounded w-full" value={description} onChange={(e) => onDescriptionChange(e.target.value)}></textarea>
 
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded" onClick={onSubmit}>Create Task</button>
+            <button type="submit" className="bg-blue-500 text-white p-2 rounded">Create Task</button>
         </form>
     );
 }
@@ -23,7 +23,9 @@ export function CreateTask() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    function handleSubmit() {
+    function handleSubmit(event) {
+
+        event.preventDefault();
 
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -38,13 +40,6 @@ export function CreateTask() {
             headers: headers,
             body: body
         });
-
-        if (!res.ok) {""
-            console.error('Failed to create task: ', res.status);
-            return;
-        }
-
-        console.log(res.status, 'Task created successfully');
         
         setTitle('');
         setDescription('');
