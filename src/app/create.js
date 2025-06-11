@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { addItem } from './actions';
 
-function CreateTaskForm({ title, description, onSubmit, onTitleChange,       onDescriptionChange }) {
+function CreateTaskForm({ title, description, onTitleChange,       onDescriptionChange }) {
     return (
-        <form className="flex flex-col items-center justify-center border p-4 rounded px-16" method="POST" onSubmit={onSubmit}>
+        <form className="flex flex-col items-center justify-center border p-4 rounded px-16" action={addItem}>
 
             <div className="border-b mb-4">
                 <h1 className="text-4xl font-bold mb-6">Create Task</h1>
@@ -19,35 +20,13 @@ function CreateTaskForm({ title, description, onSubmit, onTitleChange,       onD
     );
 }
 
-export function CreateTask( { onUpdate }) {
+export function CreateTask() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    function handleSubmit(event) {
-
-        event.preventDefault();
-
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
-        const body = JSON.stringify({ 
-                                    title: title, 
-                                    description: description 
-                                    });
-
-        const res = fetch('api/tasks', {
-            method: 'POST',
-            headers: headers,
-            body: body
-        });
-        
-        setTitle('');
-        setDescription('');
-    }
-
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <CreateTaskForm title={title} description={description} onSubmit={handleSubmit} onTitleChange={setTitle} onDescriptionChange={setDescription} />
+            <CreateTaskForm title={title} description={description} onTitleChange={setTitle} onDescriptionChange={setDescription} />
         </div>
     );
 }
