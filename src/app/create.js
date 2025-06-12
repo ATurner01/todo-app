@@ -32,7 +32,7 @@ function CreateTaskForm() {
 
             <button type="submit" className="bg-blue-500 text-white p-2 rounded">Create Task</button>
 
-            {successMessage && <p className="text-red-500 mt-4">{successMessage}</p>}
+            <p className="text-red-500 mt-4">{successMessage}</p>
         </form>
     );
 }
