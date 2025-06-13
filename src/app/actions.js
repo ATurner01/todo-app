@@ -37,11 +37,11 @@ export async function setCompleted(data) {
             throw new Error('Task ID is required');
         }
 
-        const taskCompleted = db.prepare("SELECT completed FROM tasks WHERE id = ?").all(id);
+        // const taskCompleted = db.prepare("SELECT completed FROM tasks WHERE id = ?").all(id);
 
-        if (taskCompleted) {
-            throw new Error('Task already completed');
-        }
+        // if (taskCompleted) {
+        //     throw new Error('Task already completed');
+        // }
 
         const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
         stmt.run(id);
