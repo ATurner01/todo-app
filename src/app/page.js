@@ -1,15 +1,15 @@
 import { TaskList } from "./todo";
 import { CreateTask } from "./create";
-import db from "@/lib/db";
+import { getTasks } from "./actions";
 
-
-export default function TodoApp() {
-  const tasks = db.prepare('SELECT * FROM tasks').all();
+export default async function TodoApp() {
+  const tasks = await getTasks()
+  const taskList = JSON.stringify(tasks);
               
   return (
     <div className="flex flex-row justify-evenly bg-gray-100">
       <div className="min-h-screen pt-10">
-        <TaskList tasks={tasks}/>
+        <TaskList tasks={taskList}/>
       </div>
       <div className="min-h-screen">
         <CreateTask />
