@@ -3,7 +3,7 @@
 import { setCompleted } from "./actions";
 import { useRef } from "react";
 
-function CompleteButton( { complete }) {
+function CompleteButton( { complete } ) {
     if (complete) {
         return (
             <button type="submit" className="bg-green-500 text-white p-2 rounded mt-4">Task Complete</button>
@@ -23,9 +23,9 @@ function Task({ id, title, description, completed }) {
         const res = await setCompleted(formData);
 
         if (res.success) {
-            alert("Task marked as complete.");
+            console.log("Task marked as complete.");
         } else {
-            alert(res.message)
+            console.error(res.message);
         }
     }
 
