@@ -11,9 +11,9 @@ function Task({ id, title, description }) {
         const res = await setCompleted(formData);
 
         if (res.success) {
-            console.log("Task marked as complete.");
+            alert("Task marked as complete.");
         } else {
-            console.error("Unable to mark task as complete." || res.message)
+            alert(res.message)
         }
     }
 
