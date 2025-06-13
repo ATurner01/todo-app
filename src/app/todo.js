@@ -3,7 +3,19 @@
 import { setCompleted } from "./actions";
 import { useRef } from "react";
 
-function Task({ id, title, description }) {
+function CompleteButton( { complete }) {
+    if (complete) {
+        return (
+            <button type="submit" className="bg-green-500 text-white p-2 rounded mt-4">Task Complete</button>
+        )
+    } else {
+        return (
+            <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">Mark as Complete</button>
+        )
+    }
+}
+
+function Task({ id, title, description, completed }) {
 
     const formRef = useRef(null);
 
@@ -26,8 +38,10 @@ function Task({ id, title, description }) {
             <p className="text">{description}</p>
 
             <form ref={formRef} action={handleClick} >
+
                 <input type="hidden" name="id" value={id} />
-                <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">Mark as Complete</button>
+                
+                <CompleteButton complete={completed} />
             </form>
         </div>
     );
@@ -42,7 +56,7 @@ export function TaskList( { tasks } ) {
             <ul className="list-none">
                 {taskList.map(task => (
                     <li key={task.id} className="mb-10">
-                        <Task id={task.id} title={task.title} description={task.description}  />
+                        <Task id={task.id} title={task.title} description={task.description} completed={task.completed} />
                     </li>
                 ))}
             </ul>
