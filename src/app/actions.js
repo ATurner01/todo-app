@@ -24,3 +24,24 @@ export async function addTask(data) {
     }
 
 }
+
+export async function setCompleted(data) {
+
+    try {
+        const id = data.get('id');
+        if (!id) {
+            throw new Error('Task ID is required');
+        }
+
+        const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
+        stmt.run(id);
+
+        revalidatePath('/');
+
+        return { success: true, message: 'Task marked as completed' };
+        
+    } catch (error) {
+        console.error('Error marking task as completed:', error);
+        return { success: false, message: error.message || 'Failed to mark task as completed' };
+    }
+}
