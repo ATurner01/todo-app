@@ -20,7 +20,7 @@ function CreateTaskForm() {
     }
 
     return (
-        <form ref={formRef} className="relative flex flex-col border p-4 rounded px-16" action={handleSubmit}>
+        <form ref={formRef} className="relative flex flex-col items-stretch justify-start border p-4 rounded px-16 h-full" action={handleSubmit}>
 
             <div className="border-b mb-4">
                 <h1 className="text-4xl text-center font-bold mb-6">Create Task</h1>
@@ -40,7 +40,7 @@ function CreateTaskForm() {
 export function CreateTask() {
     // Could be condensed into CreateTaskForm, but keeping it separate for clarity and legacy reasons
     return (
-        <div className="relative flex flex-col items-stretch bg-gray-100">
+        <div className="items-stretch bg-gray-100 h-full">
             <CreateTaskForm />
         </div>
     );

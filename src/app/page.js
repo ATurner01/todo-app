@@ -11,11 +11,11 @@ export default async function TodoApp() {
       <div className="min-h-screen w-1/2 h-full">
         <TaskList tasks={taskList}/>
       </div>
-      <div className="flex flex-col justify-evenly min-h-screen w-1/2 h-full">
-        <div className="">
+      <div className="relative min-h-screen w-1/2 h-full">
+        <div className="absolute w-full h-3/5">
           <p>Test</p>
         </div>
-        <div className="">
+        <div className="absolute w-full h-2/5 bottom-0">
           <CreateTask />
         </div>
       </div>
