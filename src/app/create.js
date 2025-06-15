@@ -20,7 +20,7 @@ function CreateTaskForm() {
     }
 
     return (
-        <form ref={formRef} className="relative flex flex-col items-stretch justify-start border p-4 rounded px-16 h-full" action={handleSubmit}>
+        <form ref={formRef} className="relative flex flex-col items-stretch justify-start border-t p-4 px-16 h-full" action={handleSubmit}>
 
             <div className="border-b mb-4">
                 <h1 className="text-4xl text-center font-bold mb-6">Create Task</h1>
