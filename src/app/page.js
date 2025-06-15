@@ -8,11 +8,16 @@ export default async function TodoApp() {
               
   return (
     <div className="flex flex-row justify-evenly bg-gray-100">
-      <div className="min-h-screen">
+      <div className="min-h-screen w-1/2 h-full">
         <TaskList tasks={taskList}/>
       </div>
-      <div className="min-h-screen">
-        <CreateTask />
+      <div className="flex flex-col justify-evenly min-h-screen w-1/2 h-full">
+        <div className="">
+          <p>Test</p>
+        </div>
+        <div className="">
+          <CreateTask />
+        </div>
       </div>
     </div>
   );
