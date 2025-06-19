@@ -15,7 +15,7 @@ function CompleteButton( { complete } ) {
     }
 }
 
-function Task({ id, title, description, completed }) {
+function Task({ id, title, description, completed, onSelect }) {
 
     const formRef = useRef(null);
 
@@ -37,14 +37,36 @@ function Task({ id, title, description, completed }) {
 
             <p className="text">{description}</p>
 
-            <form ref={formRef} action={handleClick} >
+            <div className="flex flex-row items-center justify-center">
+                <form ref={formRef} action={handleClick} >
 
-                <input type="hidden" name="id" value={id} />
-                
-                <CompleteButton complete={completed} />
-            </form>
+                    <input type="hidden" name="id" value={id} />
+                    
+                    <CompleteButton complete={completed} />
+                </form>
+                <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4 ml-4" onClick={() => onSelect(id)}>Select Task</button>
+            </div>
         </div>
     );
+}
+
+export function SelectedTask({ task }) {
+
+    if (task === null) {
+        return (
+            <div>
+                <h1>Task Title: Empty</h1>
+                <p>Task description: Empty</p>
+            </div>
+        )
+    }
+
+    return (
+        <div>
+            <h1>Task Title: {task.title}</h1>
+            <p>Task description: {task.description}</p>
+        </div>
+    )
 }
 
 export function TaskList( { taskList, onTaskSelect } ) {
@@ -55,7 +77,7 @@ export function TaskList( { taskList, onTaskSelect } ) {
             <ul className="list-none">
                 {taskList.map(task => (
                     <li key={task.id} className="">
-                        <Task id={task.id} title={task.title} description={task.description} completed={task.completed} />
+                        <Task id={task.id} title={task.title} description={task.description} completed={task.completed} onSelect={onTaskSelect} />
                     </li>
                 ))}
             </ul>
