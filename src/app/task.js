@@ -15,7 +15,7 @@ function CompleteButton( { complete } ) {
     }
 }
 
-function Task({ id, title, description, completed, onSelect }) {
+function Task({ id, title, description, completed }) {
 
     const formRef = useRef(null);
 
@@ -44,7 +44,6 @@ function Task({ id, title, description, completed, onSelect }) {
                     
                     <CompleteButton complete={completed} />
                 </form>
-                <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4 ml-4" onClick={() => onSelect(id)}>Select Task</button>
             </div>
         </div>
     );
@@ -76,8 +75,8 @@ export function TaskList( { taskList, onTaskSelect } ) {
             <h1 className="sticky top-0 bg-gray-100 shadow-md z-10 w-full text-center text-4xl font-bold underline p-4">Task List</h1>
             <ul className="list-none">
                 {taskList.map(task => (
-                    <li key={task.id} className="">
-                        <Task id={task.id} title={task.title} description={task.description} completed={task.completed} onSelect={onTaskSelect} />
+                    <li key={task.id} className="" onClick={() => onTaskSelect(task.id)}>
+                        <Task id={task.id} title={task.title} description={task.description} completed={task.completed}/>
                     </li>
                 ))}
             </ul>
