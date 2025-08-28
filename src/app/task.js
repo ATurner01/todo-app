@@ -15,7 +15,7 @@ function CompleteButton( { complete } ) {
     }
 }
 
-function Task({ id, title, description, completed }) {
+function Task({ id, title, description, completed, isSelected }) {
 
     const formRef = useRef(null);
 
@@ -41,7 +41,7 @@ function Task({ id, title, description, completed }) {
     }
 
     return (
-        <div className={`flex flex-col items-center justify-center border-t p-4 px-16 ${isHovering ? "bg-gray-200" : ""}`} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+        <div className={`flex flex-col items-center justify-center border-t p-4 px-16 ${isHovering && !isSelected ? "bg-gray-200" : ""} ${isSelected ? "bg-blue-100" : ""}`} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <div className="border-b mb-4">
                 <h1 className="text-4xl font-bold mb-6">{title}</h1>
             </div>
@@ -79,7 +79,7 @@ export function SelectedTask({ task }) {
     )
 }
 
-export function TaskList( { taskList, onTaskSelect } ) {
+export function TaskList( { taskList, onTaskSelect, selectedTask } ) {
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
@@ -87,7 +87,8 @@ export function TaskList( { taskList, onTaskSelect } ) {
             <ul className="list-none">
                 {taskList.map(task => (
                     <li key={task.id} className="" onClick={() => onTaskSelect(task.id)}>
-                        <Task id={task.id} title={task.title} description={task.description} completed={task.completed}/>
+                        <Task id={task.id} title={task.title} description={task.description} completed={task.completed}
+                        isSelected={selectedTask !== null && selectedTask === task.id ? true : false}/>
                     </li>
                 ))}
             </ul>

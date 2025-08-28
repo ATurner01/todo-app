@@ -22,7 +22,7 @@ export function TodoApp({ tasks }) {
   return (
   <div className="flex flex-row justify-evenly bg-gray-100">
     <div className="min-h-screen w-1/2 h-full">
-      <TaskList taskList={taskList} onTaskSelect={handleCurrentTask}/>
+      <TaskList taskList={taskList} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null}/>
     </div>
     <div className="relative min-h-screen w-1/2 h-full">
       <div className="absolute w-full h-3/5">
