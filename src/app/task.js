@@ -19,6 +19,17 @@ function Task({ id, title, description, completed }) {
 
     const formRef = useRef(null);
 
+    const [isHovering, setIsHovering] = useState(false);
+
+    const handleMouseOver = () => {
+        setIsHovering(true);
+    }
+
+    const handleMouseOut = () => {
+        setIsHovering(false);
+    }
+
+
     async function handleClick(formData) {
         const res = await setCompleted(formData);
 
@@ -30,7 +41,7 @@ function Task({ id, title, description, completed }) {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center border-t p-4 px-16">
+        <div className={`flex flex-col items-center justify-center border-t p-4 px-16 ${isHovering ? "bg-gray-200" : ""}`} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <div className="border-b mb-4">
                 <h1 className="text-4xl font-bold mb-6">{title}</h1>
             </div>
@@ -41,7 +52,7 @@ function Task({ id, title, description, completed }) {
                 <form ref={formRef} action={handleClick} >
 
                     <input type="hidden" name="id" value={id} />
-                    
+                        
                     <CompleteButton complete={completed} />
                 </form>
             </div>
@@ -69,22 +80,13 @@ export function SelectedTask({ task }) {
 }
 
 export function TaskList( { taskList, onTaskSelect } ) {
-    const [isHovering, setIsHovering] = useState(false);
-
-    const handleMouseOver = () => {
-        setIsHovering(true);
-    }
-
-    const handleMouseOut = () => {
-        setIsHovering(false);
-    }
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
             <h1 className="sticky top-0 bg-gray-100 shadow-md z-10 w-full text-center text-4xl font-bold underline p-4">Task List</h1>
             <ul className="list-none">
                 {taskList.map(task => (
-                    <li key={task.id} className="" onClick={() => onTaskSelect(task.id)} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+                    <li key={task.id} className="" onClick={() => onTaskSelect(task.id)}>
                         <Task id={task.id} title={task.title} description={task.description} completed={task.completed}/>
                     </li>
                 ))}
