@@ -59,17 +59,17 @@ export function SelectedTask({ task }) {
     }
 
     return (
-        <div className="relative flex flex-col items-center justify-center mt-4 mb-4">
+        <div className="relative flex flex-col justify-start pt-4 h-full">
             <div className="border-b mb-4 w-full">
                 <h1 className="flex flex-col items-center justify-center text-5xl font-bold mb-4 w-full">{task.title}</h1>
             </div>
 
-            <div className="flex flex-col items-center justify-center w-full">
+            <div className="flex flex-col items-center justify-start w-full h-full">
                 <h2 className="text-2xl font-semibold underline mb-4">Description</h2>
                 <p className="text-xl">{task.description}</p>
             </div>
 
-            <div className="flex flex-row items-center justify-center">
+            <div className="flex items-center justify-center w-full mb-4">
                 <form ref={formRef} action={handleClick} >
 
                     <input type="hidden" name="id" value={task.id} />
