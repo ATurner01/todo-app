@@ -64,17 +64,20 @@ export function SelectedTask({ task }) {
 
     if (task === null) {
         return (
-            <div>
-                <h1>Task Title: Empty</h1>
-                <p>Task description: Empty</p>
+            <div className="relative flex flex-col items-center justify-center h-full w-full">
+                <h1 className="flex flex-col items-center justify-center text-6xl font-bold h-full w-full">No task selected</h1>
             </div>
         )
     }
 
     return (
-        <div>
-            <h1>Task Title: {task.title}</h1>
-            <p>Task description: {task.description}</p>
+        <div className="relative flex flex-col items-center justify-center mt-4 mb-4">
+            <div className="border-b mb-4 w-full">
+                <h1 className="flex flex-col items-center justify-center text-5xl font-bold mb-4 w-full">{task.title}</h1>
+            </div>
+            <div className="flex flex-col items-center justify-center w-full">
+                <p className="text-xl">{task.description}</p>
+            </div>
         </div>
     )
 }
