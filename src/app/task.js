@@ -36,26 +36,30 @@ function Task({ title, completed, isSelected }) {
     );
 }
 
-export function SelectedTask({ task }) {
+function NoTaskSelected() {
+    return (
+            <div className="relative flex flex-col items-center justify-center h-full w-full">
+                <h1 className="flex flex-col items-center justify-center text-6xl font-bold h-full w-full">No task selected</h1>
+            </div>
+        )
+}
 
-    const formRef = useRef(null);
-
-    async function handleClick(formData) {
-        const res = await setCompleted(formData);
+async function TaskCompleteAction(formData) {
+    const res = await setCompleted(formData);
 
         if (res.success) {
             console.log("Task marked as complete.");
         } else {
             console.error(res.message);
         }
-    }
+}
+
+export function SelectedTask({ task }) {
+
+    const formRef = useRef(null);
 
     if (task === null) {
-        return (
-            <div className="relative flex flex-col items-center justify-center h-full w-full">
-                <h1 className="flex flex-col items-center justify-center text-6xl font-bold h-full w-full">No task selected</h1>
-            </div>
-        )
+        return <NoTaskSelected />;
     }
 
     return (
@@ -73,7 +77,7 @@ export function SelectedTask({ task }) {
             </div>
 
             <div className="flex items-center justify-center w-full mb-4">
-                <form ref={formRef} action={handleClick} >
+                <form ref={formRef} action={TaskCompleteAction} >
 
                     <input type="hidden" name="id" value={task.id} />
                         
