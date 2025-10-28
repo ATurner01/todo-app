@@ -32,7 +32,7 @@ export async function addTask(data) {
 export async function setCompleted(data) {
 
     try {
-        const id = data.get('id');
+        const id = data['id'];
         if (!id) {
             throw new Error('Task ID is required');
         }

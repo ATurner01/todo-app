@@ -3,14 +3,14 @@
 import { setCompleted } from "./actions";
 import { useState, useRef, useEffect } from "react";
 
-function CompleteButton( { complete, completeRef } ) {
+function CompleteButton( { id, complete, completeRef } ) {
     if (complete) {
         return (
-            <button type="submit" className="bg-green-500 text-white p-2 rounded mt-4" ref={completeRef}>Task Complete</button>
+            <button id={id} type="submit" className="bg-green-500 text-white p-2 rounded mt-4" ref={completeRef}>Task Complete</button>
         )
     } else {
         return (
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4" ref={completeRef}>Mark as Complete</button>
+            <button id={id} type="submit" className="bg-blue-500 text-white p-2 rounded mt-4" ref={completeRef}>Mark as Complete</button>
         )
     }
 }
@@ -42,18 +42,6 @@ function NoTaskSelected() {
                 <h1 className="flex flex-col items-center justify-center text-6xl font-bold h-full w-full">No task selected</h1>
             </div>
         )
-}
-
-
-//TODO: Turn this into an effect using useEffect
-async function TaskCompleteAction(formData) {
-    const res = await setCompleted(formData);
-
-        if (res.success) {
-            console.log("Task marked as complete.");
-        } else {
-            console.error(res.message);
-        }
 }
 
 //TODO: Implement filtering logic + refactor into smaller methods
@@ -105,41 +93,30 @@ function TaskFilterMenu() {
 
 export function SelectedTask({ task }) {
 
-    const formRef = useRef(null);
     const buttonRef = useRef(null);
-    const [completeStatus, setCompleteStatus] = useState(false);
 
     useEffect(() => {
 
-        if (completeStatus === true || task === null) {
-            console.log(`Task already complete or no task selected: ${completeStatus}`);
-            return;
-        }
-
         async function fetchData() {
-            const res = await setCompleted(new FormData({"id": task.id}));
-            return res;
+            const res = await setCompleted({ id: buttonRef.current.id });
+
+            if (res.success) {
+                console.log("Task marked as complete.");
+            } else {
+                console.error(res.message);
+            }
         }
 
         const handleClick = (event) => {
             if (buttonRef.current && buttonRef.current.contains(event.target)){
-                setCompleteStatus(true);
-                const result = fetchData();
-                console.log("test");
-
-                if (result.success) {
-                    console.log("Task marked as complete.");
-                }
-                else {
-                    console.error(result.message);
-                }
+                fetchData();
             }
         }
 
-        document.addEventListener("click", handleClick)
+        document.addEventListener("mousedown", handleClick)
         
-        return () => document.removeEventListener("click", handleClick);
-    }, [completeStatus, task]);
+        return () => document.removeEventListener("mousedown", handleClick);
+    }, []);
 
     if (task === null) {
         return <NoTaskSelected />;
@@ -160,7 +137,7 @@ export function SelectedTask({ task }) {
             </div>
 
             <div className="flex items-center justify-center w-full mb-4">
-                <CompleteButton complete={task.completed} completeRef={buttonRef} />
+                <CompleteButton id={task.id} complete={task.completed} completeRef={buttonRef} />
             </div>
         </div>
     )
