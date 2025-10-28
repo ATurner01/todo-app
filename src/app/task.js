@@ -1,7 +1,7 @@
 'use client';
 
 import { setCompleted } from "./actions";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function CompleteButton( { complete } ) {
     if (complete) {
@@ -54,6 +54,51 @@ async function TaskCompleteAction(formData) {
         }
 }
 
+function TaskFilterMenu() {
+    const [open, setOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    const toggleMenu = () => setOpen(!open);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const handleSelect = (value) => {
+        console.log(`Selected filter: ${value}`);
+        setOpen(false);
+    }
+
+    const options = ["Test 1", "Test 2", "Test 3"];
+
+    return (
+        <div className="relative inline-block" ref={menuRef}>
+            <button onClick={toggleMenu} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                Filter
+            </button>
+
+            {open && (
+                <div className="absolute left-full top-0 ml-2 bg-white border rounded-md shadow-lg w-40">
+                    {options.map((option) => (
+                        <button
+                            key={option}
+                            onClick={() => handleSelect(option)}
+                            className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                {option}
+                            </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
 export function SelectedTask({ task }) {
 
     const formRef = useRef(null);
@@ -92,7 +137,13 @@ export function TaskList( { taskList, onTaskSelect, selectedTask } ) {
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
-            <h1 className="sticky top-0 bg-gray-100 shadow-md z-10 w-full text-center text-4xl font-bold underline p-4">Task List</h1>
+            <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full p-4">
+                <div className="absolute left-4 top-4">
+                    <TaskFilterMenu />
+                </div>
+                <h1 className="text-center text-4xl font-bold underline">       Task List     
+                </h1>
+            </div>
             <ul className="list-none">
                 {taskList.map(task => (
                     <li key={task.id} className="" onClick={() => onTaskSelect(task.id)}>
