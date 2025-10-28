@@ -3,14 +3,14 @@
 import { setCompleted } from "./actions";
 import { useState, useRef, useEffect } from "react";
 
-function CompleteButton( { complete } ) {
+function CompleteButton( { complete, completeRef } ) {
     if (complete) {
         return (
-            <button type="submit" className="bg-green-500 text-white p-2 rounded mt-4">Task Complete</button>
+            <button type="submit" className="bg-green-500 text-white p-2 rounded mt-4" ref={completeRef}>Task Complete</button>
         )
     } else {
         return (
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">Mark as Complete</button>
+            <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4" ref={completeRef}>Mark as Complete</button>
         )
     }
 }
@@ -106,6 +106,40 @@ function TaskFilterMenu() {
 export function SelectedTask({ task }) {
 
     const formRef = useRef(null);
+    const buttonRef = useRef(null);
+    const [completeStatus, setCompleteStatus] = useState(false);
+
+    useEffect(() => {
+
+        if (completeStatus === true || task === null) {
+            console.log(`Task already complete or no task selected: ${completeStatus}`);
+            return;
+        }
+
+        async function fetchData() {
+            const res = await setCompleted(new FormData({"id": task.id}));
+            return res;
+        }
+
+        const handleClick = (event) => {
+            if (buttonRef.current && buttonRef.current.contains(event.target)){
+                setCompleteStatus(true);
+                const result = fetchData();
+                console.log("test");
+
+                if (result.success) {
+                    console.log("Task marked as complete.");
+                }
+                else {
+                    console.error(result.message);
+                }
+            }
+        }
+
+        document.addEventListener("click", handleClick)
+        
+        return () => document.removeEventListener("click", handleClick);
+    }, [completeStatus, task]);
 
     if (task === null) {
         return <NoTaskSelected />;
@@ -126,12 +160,7 @@ export function SelectedTask({ task }) {
             </div>
 
             <div className="flex items-center justify-center w-full mb-4">
-                <form ref={formRef} action={TaskCompleteAction} >
-
-                    <input type="hidden" name="id" value={task.id} />
-                        
-                    <CompleteButton complete={task.completed} />
-                </form>
+                <CompleteButton complete={task.completed} completeRef={buttonRef} />
             </div>
         </div>
     )
