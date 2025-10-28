@@ -44,6 +44,8 @@ function NoTaskSelected() {
         )
 }
 
+
+//TODO: Turn this into an effect using useEffect
 async function TaskCompleteAction(formData) {
     const res = await setCompleted(formData);
 
@@ -54,12 +56,14 @@ async function TaskCompleteAction(formData) {
         }
 }
 
+//TODO: Implement filtering logic + refactor into smaller methods
 function TaskFilterMenu() {
     const [open, setOpen] = useState(false);
     const menuRef = useRef(null);
 
     const toggleMenu = () => setOpen(!open);
 
+    //Create event listener and function for handling clicks outside of menu
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -68,7 +72,7 @@ function TaskFilterMenu() {
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, []); //Only need to run once on mount
 
     const handleSelect = (value) => {
         console.log(`Selected filter: ${value}`);
