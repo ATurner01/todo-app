@@ -3,11 +3,16 @@
 import { TaskList, SelectedTask } from "./task";
 import { CreateTask } from "./create";
 import { useState } from "react";
+import { useTasks } from "./useTasks";
 
 
-export function TodoApp({ tasks }) {
-  const taskList = JSON.parse(tasks)
+export function TodoApp() {
+  const { tasks, loading } = useTasks();
   const [currentTask, setCurrentTask] = useState(null);
+
+  if (loading) { return <p>Loading data...</p> }
+
+  const taskList = tasks;
 
   function handleCurrentTask(taskId) {
     const selectedTask = taskList.find(task => task.id === taskId);
