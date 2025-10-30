@@ -5,12 +5,18 @@ import { CreateTask } from "./create";
 import { useState } from "react";
 import { useTasks } from "./useTasks";
 
+function ListLoading() {
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full">
+      <h1 className="flex flex-col items-center justify-center text-6xl font-bold h-full w-full">Loading tasks...</h1>
+    </div>
+  )
+}
+
 
 export function TodoApp() {
-  const { tasks, loading } = useTasks();
+  const { tasks, loading, refetch } = useTasks();
   const [currentTask, setCurrentTask] = useState(null);
-
-  if (loading) { return <p>Loading data...</p> }
 
   const taskList = tasks;
 
@@ -27,7 +33,8 @@ export function TodoApp() {
   return (
   <div className="flex flex-row justify-evenly bg-gray-100">
     <div className="min-h-screen w-1/2 h-full">
-      <TaskList taskList={taskList} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null}/>
+    {loading ? <ListLoading /> :
+      <TaskList taskList={taskList} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null}/> }
     </div>
     <div className="relative min-h-screen w-1/2 h-full">
       <div className="absolute w-full h-3/5">
