@@ -13,7 +13,6 @@ function ListLoading() {
   )
 }
 
-
 export function TodoApp() {
   const { tasks, loading, refetch } = useTasks();
   const [currentTask, setCurrentTask] = useState(null);
