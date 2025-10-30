@@ -4,6 +4,7 @@ import { getTasks } from "./actions";
 export function useTasks() {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(0);
 
     useEffect(() => {
         
@@ -21,7 +22,9 @@ export function useTasks() {
         }
 
         fetchTasks();
-    }, []);
+    }, [refresh]);
 
-    return { tasks, loading };
+    const refetch = () => setRefresh((prev) => prev + 1);
+
+    return { tasks, loading, refetch };
 }
