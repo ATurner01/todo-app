@@ -143,7 +143,7 @@ export function SelectedTask({ task }) {
     )
 }
 
-export function TaskList( { taskList, onTaskSelect, selectedTask } ) {
+export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) {
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
@@ -153,6 +153,11 @@ export function TaskList( { taskList, onTaskSelect, selectedTask } ) {
                 </div>
                 <h1 className="text-center text-4xl font-bold underline">       Task List     
                 </h1>
+                <div className="absolute right-4 top-4">
+                    <button onClick={onRefetch} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        Refresh
+                    </button>
+                </div>
             </div>
             <ul className="list-none">
                 {taskList.map(task => (

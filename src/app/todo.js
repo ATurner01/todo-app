@@ -34,7 +34,7 @@ export function TodoApp() {
   <div className="flex flex-row justify-evenly bg-gray-100">
     <div className="min-h-screen w-1/2 h-full">
     {loading ? <ListLoading /> :
-      <TaskList taskList={taskList} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null}/> }
+      <TaskList taskList={taskList} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null} onRefetch={refetch}/> }
     </div>
     <div className="relative min-h-screen w-1/2 h-full">
       <div className="absolute w-full h-3/5">

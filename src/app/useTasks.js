@@ -24,7 +24,10 @@ export function useTasks() {
         fetchTasks();
     }, [refresh]);
 
-    const refetch = () => setRefresh((prev) => prev + 1);
+    const refetch = () => { 
+        setRefresh((prev) => prev + 1);
+        console.log("Refetching tasks...");
+    };
 
     return { tasks, loading, refetch };
 }
