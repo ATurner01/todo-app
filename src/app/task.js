@@ -141,7 +141,6 @@ export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) 
     const [displayedTasks, setDisplayedTasks] = useState(taskList);
 
     const handleFilterChange = (value, menu) => {
-        console.log(`Selected filter: ${value}`);
 
         switch (value) {
             case "All":
