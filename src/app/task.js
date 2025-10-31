@@ -44,8 +44,7 @@ function NoTaskSelected() {
         )
 }
 
-//TODO: Implement filtering logic + refactor into smaller methods
-function TaskFilterMenu() {
+function TaskFilterMenu( { onFilterChange } ) {
     const [open, setOpen] = useState(false);
     const menuRef = useRef(null);
 
@@ -62,12 +61,7 @@ function TaskFilterMenu() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []); //Only need to run once on mount
 
-    const handleSelect = (value) => {
-        console.log(`Selected filter: ${value}`);
-        setOpen(false);
-    }
-
-    const options = ["Test 1", "Test 2", "Test 3"];
+    const options = ["All", "Completed", "Not Completed"];
 
     return (
         <div className="relative inline-block" ref={menuRef}>
@@ -80,7 +74,7 @@ function TaskFilterMenu() {
                     {options.map((option) => (
                         <button
                             key={option}
-                            onClick={() => handleSelect(option)}
+                            onClick={() => onFilterChange(option, setOpen)}
                             className="block w-full text-left px-4 py-2 hover:bg-gray-100">
                                 {option}
                             </button>
@@ -144,12 +138,31 @@ export function SelectedTask({ task }) {
 }
 
 export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) {
+    const [displayedTasks, setDisplayedTasks] = useState(taskList);
+
+    const handleFilterChange = (value, menu) => {
+        console.log(`Selected filter: ${value}`);
+
+        switch (value) {
+            case "All":
+                setDisplayedTasks(taskList);
+                break;
+            case "Completed":
+                setDisplayedTasks(taskList.filter(task => task.completed === 1));
+                break;
+            case "Not Completed":
+                setDisplayedTasks(taskList.filter(task => task.completed === 0));
+                break;
+        }
+
+        menu(false);
+    }
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
             <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full p-4">
                 <div className="absolute left-4 top-4">
-                    <TaskFilterMenu />
+                    <TaskFilterMenu onFilterChange={handleFilterChange}/>
                 </div>
                 <h1 className="text-center text-4xl font-bold underline">       Task List     
                 </h1>
@@ -160,7 +173,7 @@ export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) 
                 </div>
             </div>
             <ul className="list-none">
-                {taskList.map(task => (
+                {displayedTasks.map(task => (
                     <li key={task.id} className="" onClick={() => onTaskSelect(task.id)}>
                         <Task title={task.title} completed={task.completed}
                         isSelected={selectedTask !== null && selectedTask === task.id ? true : false}/>
