@@ -17,10 +17,8 @@ export function TodoApp() {
   const { tasks, loading, refetch } = useTasks();
   const [currentTask, setCurrentTask] = useState(null);
 
-  const taskList = tasks;
-
   function handleCurrentTask(taskId) {
-    const selectedTask = taskList.find(task => task.id === taskId);
+    const selectedTask = tasks.find(task => task.id === taskId);
 
     if (typeof selectedTask !== 'undefined') {
       setCurrentTask(selectedTask);
@@ -33,7 +31,7 @@ export function TodoApp() {
   <div className="flex flex-row justify-evenly bg-gray-100">
     <div className="min-h-screen w-1/2 h-full">
     {loading ? <ListLoading /> :
-      <TaskList taskList={taskList} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null} onRefetch={refetch}/> }
+      <TaskList taskList={tasks} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null} onRefetch={refetch}/> }
     </div>
     <div className="relative min-h-screen w-1/2 h-full">
       <div className="absolute w-full h-3/5">
