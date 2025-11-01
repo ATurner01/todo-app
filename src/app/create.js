@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { addTask } from './actions';
 
-function CreateTaskForm() {
+function CreateTaskForm( { onCreate } ) {
 
     const formRef = useRef(null);
     const [successMessage, setSuccessMessage] = useState("");
@@ -14,6 +14,7 @@ function CreateTaskForm() {
         if (result.success) {
             formRef.current?.reset();
             setSuccessMessage("");
+            onCreate();
         } else {
             setSuccessMessage("Error: Task requires a title.");
         }
@@ -30,18 +31,17 @@ function CreateTaskForm() {
 
             <textarea name="description" placeholder="Task Description (Optional)" className="mb-4 p-2 border rounded w-full"></textarea>
 
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded">Create Task</button>
+            <button type="submit" className="bg-blue-500 text-white p-2 rounded" >Create Task</button>
 
             <p className="text-red-500 mt-4">{successMessage}</p>
         </form>
     );
 }
 
-export function CreateTask() {
-    // Could be condensed into CreateTaskForm, but keeping it separate for clarity and legacy reasons
+export function CreateTask( { refetch } ) {
     return (
         <div className="items-stretch bg-gray-100 h-full">
-            <CreateTaskForm />
+            <CreateTaskForm onCreate={refetch} />
         </div>
     );
 }
