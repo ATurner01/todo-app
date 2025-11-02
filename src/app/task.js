@@ -6,12 +6,15 @@ import { useState, useRef, useEffect } from "react";
 function CompleteButton( { id, complete, completeRef, onUpdate } ) {
     if (complete) {
         return (
-            <button id={id} type="submit" className="bg-green-500 text-white p-2 rounded mt-4" ref={completeRef}>Task Complete</button>
+            <button id={id} type="submit" className="bg-green-500 text-white p-2 rounded mt-4" ref={completeRef}
+            onClick={() => updateTaskCompletion(id, complete, onUpdate)}>
+                Task Complete
+            </button>
         )
     } else {
         return (
             <button id={id} type="submit" className="bg-blue-500 text-white p-2 rounded mt-4" ref={completeRef}
-            onClick={() => markTaskComplete(id, onUpdate)}>
+            onClick={() => updateTaskCompletion(id, complete, onUpdate)}>
                 Mark as Complete
             </button>
         )
@@ -88,12 +91,12 @@ function TaskFilterMenu( { onFilterChange } ) {
     );
 }
 
-async function markTaskComplete(taskId, onUpdate) {
-    const res = await setCompleted({ id: taskId });
+async function updateTaskCompletion(taskId, completeStatus, onUpdate) {
+    const res = await setCompleted({ id: taskId, completed: completeStatus });
     
     if (res.success) {
-        console.log("Task marked as complete.");
-        onUpdate();
+        console.log("Task complete status updated.");
+        onUpdate(taskId);
     } else {
         console.error(res.message);
     }
