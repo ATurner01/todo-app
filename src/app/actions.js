@@ -19,11 +19,14 @@ export async function addTask(data) {
         const stmt = db.prepare('INSERT INTO tasks (title, description, date_created) VALUES (?, ?, ?)');
 
         const date = new Date().toISOString();
-        stmt.run(data.get('title'), data.get('description'), date);
-        
-        revalidatePath('/');
+        const newTaskId = stmt.run(data.get('title'), data.get('description'), date);
+        const newTask = db.prepare("SELECT * FROM tasks WHERE id = ?").get(newTaskId.lastInsertRowid);
 
-        return { success: true, message: 'Task added successfully' };
+        return { 
+                success: true,
+                message: 'Task added successfully',
+                task: JSON.stringify(newTask)
+            };
         
     } catch (error) {
         console.error('Error adding task:', error);
