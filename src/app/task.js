@@ -31,7 +31,7 @@ function Task({ title, completed, isSelected }) {
     }
 
     return (
-        <div className={`flex flex-col items-center justify-center border-t p-4 px-16 ${isHovering && !isSelected ? "bg-gray-300" : ""} ${isHovering && completed && !isSelected ? "bg-green-300" : ""} ${isSelected ? "bg-blue-300" : ""} ${completed && !isSelected && !isHovering ? "bg-green-500" : ""}`} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+        <div className={`flex flex-col items-center justify-center border-b p-4 px-16 ${isHovering && !isSelected ? "bg-gray-300" : ""} ${isHovering && completed && !isSelected ? "bg-green-300" : ""} ${isSelected ? "bg-blue-300" : ""} ${completed && !isSelected && !isHovering ? "bg-green-500" : ""}`} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <div className="mb-6 mt-6">
                 <h1 className="flex flex-col items-center justify-center text-4xl font-bold">{title}</h1>
             </div>
@@ -150,7 +150,7 @@ export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) 
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
-            <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full p-4">
+            <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full border-b p-4">
                 <div className="absolute left-4 top-4">
                     <TaskFilterMenu onFilterChange={handleFilterChange}/>
                 </div>
