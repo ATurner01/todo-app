@@ -33,5 +33,13 @@ export function useTasks() {
         setTasks((prevTasks) => [...prevTasks, newTask]);   
     }
 
-    return { tasks, loading, refetch, updateNoRefetch };
+    const updateCompleteState = (taskId) => {
+        setTasks(prevTasks => 
+            prevTasks.map(task => 
+                task.id === taskId ? { ...task, completed: !task.completed } : task
+            )
+        );
+    }
+
+    return { tasks, loading, refetch, updateNoRefetch, updateCompleteState };
 }
