@@ -85,7 +85,7 @@ function TaskFilterMenu( { onFilterChange } ) {
     );
 }
 
-export function SelectedTask({ task }) {
+export function SelectedTask({ task, onUpdate }) {
 
     const buttonRef = useRef(null);
 
@@ -96,6 +96,7 @@ export function SelectedTask({ task }) {
 
             if (res.success) {
                 console.log("Task marked as complete.");
+                onUpdate();
             } else {
                 console.error(res.message);
             }

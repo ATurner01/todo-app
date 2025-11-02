@@ -35,7 +35,7 @@ export function TodoApp() {
     </div>
     <div className="relative min-h-screen w-1/2 h-full">
       <div className="absolute w-full h-3/5">
-        <SelectedTask task={currentTask} />
+        <SelectedTask task={currentTask} onUpdate={refetch} />
       </div>
       <div className="absolute w-full h-2/5 bottom-0">
         <CreateTask refetch={refetch} />
