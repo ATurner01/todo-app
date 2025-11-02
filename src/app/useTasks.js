@@ -29,5 +29,9 @@ export function useTasks() {
         console.log("Refetching tasks...");
     };
 
-    return { tasks, loading, refetch };
+    const updateNoRefetch = (newTask) => {
+        setTasks((prevTasks) => [...prevTasks, newTask]);   
+    }
+
+    return { tasks, loading, refetch, updateNoRefetch };
 }
