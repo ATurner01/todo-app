@@ -43,21 +43,16 @@ export async function setCompleted(data) {
             throw new Error('Task ID is required');
         }
 
-        // const taskCompleted = db.prepare("SELECT completed FROM tasks WHERE id = ?").all(id);
+        // Flip the complete status
+        const complete = data['completed'] === 0 ? 1 : 0;
 
-        // if (taskCompleted) {
-        //     throw new Error('Task already completed');
-        // }
+        const stmt = db.prepare('UPDATE tasks SET completed = ? WHERE id = ?');
+        stmt.run(complete, id);
 
-        const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
-        stmt.run(id);
-
-        revalidatePath('/');
-
-        return { success: true, message: 'Task marked as completed' };
+        return { success: true, message: `Task complete status updated to: ${complete}` };
         
     } catch (error) {
-        console.error('Error marking task as completed:', error);
-        return { success: false, message: error.message || 'Failed to mark task as completed' };
+        console.error('Error changing task complete status:', error);
+        return { success: false, message: error.message || 'Failed to change task complete status' };
     }
 }
