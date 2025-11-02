@@ -113,7 +113,9 @@ export function SelectedTask({ task, onUpdate }) {
 
             <div className="flex flex-col items-center justify-start w-full h-full">
                 <div className="absolute flex items-start justify-start left-0 pl-4 pt-1">
-                    <p>Date Created: 01/01/1979</p>
+                    <p>Date Created: {task.date_created !== null 
+                    ? new Date(task.date_created).toLocaleDateString()
+                    : "Date not provided"} </p>
                 </div>
                 <h2 className="text-2xl font-semibold underline mb-4">Description</h2>
                 <p className="text-xl">{task.description}</p>

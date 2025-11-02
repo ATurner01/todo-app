@@ -16,8 +16,10 @@ export async function addTask(data) {
             throw new Error('Title is required');
         }
         
-        const stmt = db.prepare('INSERT INTO tasks (title, description) VALUES (?, ?)');
-        stmt.run(data.get('title'), data.get('description'));
+        const stmt = db.prepare('INSERT INTO tasks (title, description, date_created) VALUES (?, ?, ?)');
+
+        const date = new Date().toISOString();
+        stmt.run(data.get('title'), data.get('description'), date);
         
         revalidatePath('/');
 

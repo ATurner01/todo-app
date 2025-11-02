@@ -15,6 +15,7 @@ export async function GET() {
 
 export async function POST(request) {
     
+    // Update this to include date_created too (not using currently do can leave as is)
     const { title, description } = await request.json();
     const stmt = db.prepare('INSERT INTO tasks (title, description) VALUES (?, ?)')
 
