@@ -3,14 +3,17 @@
 import { setCompleted } from "./actions";
 import { useState, useRef, useEffect } from "react";
 
-function CompleteButton( { id, complete, completeRef } ) {
+function CompleteButton( { id, complete, completeRef, onUpdate } ) {
     if (complete) {
         return (
             <button id={id} type="submit" className="bg-green-500 text-white p-2 rounded mt-4" ref={completeRef}>Task Complete</button>
         )
     } else {
         return (
-            <button id={id} type="submit" className="bg-blue-500 text-white p-2 rounded mt-4" ref={completeRef}>Mark as Complete</button>
+            <button id={id} type="submit" className="bg-blue-500 text-white p-2 rounded mt-4" ref={completeRef}
+            onClick={() => markTaskComplete(id, onUpdate)}>
+                Mark as Complete
+            </button>
         )
     }
 }
@@ -85,33 +88,18 @@ function TaskFilterMenu( { onFilterChange } ) {
     );
 }
 
+async function markTaskComplete(taskId, onUpdate) {
+    const res = await setCompleted({ id: taskId });
+    
+    if (res.success) {
+        console.log("Task marked as complete.");
+        onUpdate();
+    } else {
+        console.error(res.message);
+    }
+}
+
 export function SelectedTask({ task, onUpdate }) {
-
-    const buttonRef = useRef(null);
-
-    useEffect(() => {
-
-        async function fetchData() {
-            const res = await setCompleted({ id: buttonRef.current.id });
-
-            if (res.success) {
-                console.log("Task marked as complete.");
-                onUpdate();
-            } else {
-                console.error(res.message);
-            }
-        }
-
-        const handleClick = (event) => {
-            if (buttonRef.current && buttonRef.current.contains(event.target)){
-                fetchData();
-            }
-        }
-
-        document.addEventListener("mousedown", handleClick)
-        
-        return () => document.removeEventListener("mousedown", handleClick);
-    }, []);
 
     if (task === null) {
         return <NoTaskSelected />;
@@ -132,7 +120,7 @@ export function SelectedTask({ task, onUpdate }) {
             </div>
 
             <div className="flex items-center justify-center w-full mb-4">
-                <CompleteButton id={task.id} complete={task.completed} completeRef={buttonRef} />
+                <CompleteButton id={task.id} complete={task.completed} onUpdate={onUpdate}/>
             </div>
         </div>
     )
