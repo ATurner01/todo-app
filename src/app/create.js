@@ -14,7 +14,8 @@ function CreateTaskForm( { onCreate } ) {
         if (result.success) {
             formRef.current?.reset();
             setSuccessMessage("");
-            onCreate();
+            const newTask = JSON.parse(result.task);
+            onCreate(newTask);
         } else {
             setSuccessMessage("Error: Task requires a title.");
         }

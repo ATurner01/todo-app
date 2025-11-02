@@ -129,24 +129,18 @@ export function SelectedTask({ task, onUpdate }) {
 }
 
 export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) {
-    const [displayedTasks, setDisplayedTasks] = useState(taskList);
+    const [filter, setFilter] = useState("All");
 
     const handleFilterChange = (value, menu) => {
-
-        switch (value) {
-            case "All":
-                setDisplayedTasks(taskList);
-                break;
-            case "Completed":
-                setDisplayedTasks(taskList.filter(task => task.completed === 1));
-                break;
-            case "Not Completed":
-                setDisplayedTasks(taskList.filter(task => task.completed === 0));
-                break;
-        }
-
+        setFilter(value);
         menu(false);
     }
+
+    const displayedTasks = filter === "All"
+        ? taskList
+        : filter === "Completed"
+            ? taskList.filter(task => task.completed)
+            : taskList.filter(task => !task.completed);
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">

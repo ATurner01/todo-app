@@ -14,7 +14,7 @@ function ListLoading() {
 }
 
 export function TodoApp() {
-  const { tasks, loading, refetch } = useTasks();
+  const { tasks, loading, refetch, updateNoRefetch } = useTasks();
   const [currentTask, setCurrentTask] = useState(null);
 
   function handleCurrentTask(taskId) {
@@ -38,7 +38,7 @@ export function TodoApp() {
         <SelectedTask task={currentTask} onUpdate={refetch} />
       </div>
       <div className="absolute w-full h-2/5 bottom-0">
-        <CreateTask refetch={refetch} />
+        <CreateTask refetch={updateNoRefetch} />
       </div>
     </div>
   </div>
