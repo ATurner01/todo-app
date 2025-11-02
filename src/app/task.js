@@ -3,17 +3,17 @@
 import { setCompleted } from "./actions";
 import { useState, useRef, useEffect } from "react";
 
-function CompleteButton( { id, complete, completeRef, onUpdate } ) {
+function CompleteButton( { id, complete, onUpdate } ) {
     if (complete) {
         return (
-            <button id={id} type="submit" className="bg-green-500 text-white p-2 rounded mt-4" ref={completeRef}
+            <button id={id} type="submit" className="bg-green-500 text-white p-2 rounded mt-4"
             onClick={() => updateTaskCompletion(id, complete, onUpdate)}>
                 Task Complete
             </button>
         )
     } else {
         return (
-            <button id={id} type="submit" className="bg-blue-500 text-white p-2 rounded mt-4" ref={completeRef}
+            <button id={id} type="submit" className="bg-blue-500 text-white p-2 rounded mt-4"
             onClick={() => updateTaskCompletion(id, complete, onUpdate)}>
                 Mark as Complete
             </button>
