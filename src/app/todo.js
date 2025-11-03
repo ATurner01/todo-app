@@ -15,27 +15,21 @@ function ListLoading() {
 
 export function TodoApp() {
   const { tasks, loading, refetch, updateNoRefetch, updateCompleteState } = useTasks();
-  const [currentTask, setCurrentTask] = useState(null);
+  const [currentTaskId, setCurrentTaskId] = useState(null);
 
   function handleCurrentTask(taskId) {
-    const selectedTask = tasks.find(task => task.id === taskId);
-
-    if (typeof selectedTask !== 'undefined') {
-      setCurrentTask(selectedTask);
-    } else {
-      console.error("Selected task could not be found.");
-    }
+    setCurrentTaskId(taskId);
   }
 
   return (
   <div className="flex flex-row justify-evenly bg-gray-100">
     <div className="min-h-screen w-1/2 h-full">
     {loading ? <ListLoading /> :
-      <TaskList taskList={tasks} onTaskSelect={handleCurrentTask} selectedTask={currentTask !== null ? currentTask.id : null} onRefetch={refetch}/> }
+      <TaskList taskList={tasks} onTaskSelect={handleCurrentTask} selectedTask={currentTaskId} onRefetch={refetch}/> }
     </div>
     <div className="relative min-h-screen w-1/2 h-full">
       <div className="absolute w-full h-3/5">
-        <SelectedTask task={currentTask} onUpdate={updateCompleteState} />
+        <SelectedTask taskList={tasks} taskId={currentTaskId} onUpdate={updateCompleteState} />
       </div>
       <div className="absolute w-full h-2/5 bottom-0">
         <CreateTask refetch={updateNoRefetch} />

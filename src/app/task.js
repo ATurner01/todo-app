@@ -102,8 +102,10 @@ async function updateTaskCompletion(taskId, completeStatus, onUpdate) {
     }
 }
 
-export function SelectedTask({ task, onUpdate }) {
+export function SelectedTask({ taskList, taskId, onUpdate }) {
 
+    const task = taskList.find(t => t.id === taskId) || null;
+    
     if (task === null) {
         return <NoTaskSelected />;
     }
