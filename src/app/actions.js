@@ -1,7 +1,6 @@
 'use server';
 
 import db from '@/lib/db';
-import { revalidatePath } from 'next/cache';
 
 export async function getTasks() {
     const tasks = db.prepare("SELECT * FROM tasks").all()
