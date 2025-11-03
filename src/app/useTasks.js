@@ -41,5 +41,11 @@ export function useTasks() {
         );
     }
 
-    return { tasks, loading, refetch, updateNoRefetch, updateCompleteState };
+    const deleteTaskFromState = (taskId) => {
+        setTasks(prevTasks => 
+            prevTasks.filter(task => task.id !== taskId)
+        );
+    }
+
+    return { tasks, loading, refetch, updateNoRefetch, updateCompleteState, deleteTaskFromState };
 }
