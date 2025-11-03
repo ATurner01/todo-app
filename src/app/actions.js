@@ -55,3 +55,32 @@ export async function setCompleted(data) {
         return { success: false, message: error.message || 'Failed to change task complete status' };
     }
 }
+
+export async function deleteTask(data) {
+
+    try {
+        const id = data['id'];
+        if (!id) {
+            throw new Error(`Task ID is required`);
+        }
+
+        const stmt = db.prepare('DELETE FROM tasks WHERE id = ?');
+        const result = stmt.run(id);
+
+        if (result.changes === 0) {
+            throw new Error(`No task found with ID: ${id}`);
+        }
+
+        return {
+            success: true,
+            message: `Task with ID: ${id} deleted successfully`
+        };
+    }
+    catch (error) {
+        console.error('Error deleting task:', error);
+        return {
+            success: false,
+            message: error.message || 'Failed to delete task'
+        };
+    }
+}
