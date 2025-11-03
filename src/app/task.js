@@ -1,6 +1,6 @@
 'use client';
 
-import { setCompleted } from "./actions";
+import { setCompleted, deleteTask } from "./actions";
 import { useState, useRef, useEffect } from "react";
 
 function CompleteButton( { id, complete, onUpdate } ) {
@@ -19,6 +19,15 @@ function CompleteButton( { id, complete, onUpdate } ) {
             </button>
         )
     }
+}
+
+function DeleteButton( { id, onDelete } ) {
+    return (
+        <button id={id} type='submit' className="bg-red-500 text-white p-2 rounded mt-4"
+        onClick={() => handleDeleteTask(id, onDelete)}>
+            Delete Task
+        </button>
+    )
 }
 
 function Task({ title, completed, isSelected }) {
@@ -102,7 +111,18 @@ async function updateTaskCompletion(taskId, completeStatus, onUpdate) {
     }
 }
 
-export function SelectedTask({ taskList, taskId, onUpdate }) {
+async function handleDeleteTask(taskId, onDelete) {
+    const res = await deleteTask({ id: taskId });
+
+    if (res.success) {
+        console.log("Task deleted successfully.");
+        onDelete(taskId);
+    } else {
+        console.error(res.message);
+    }
+}
+
+export function SelectedTask({ taskList, taskId, onUpdate, onDelete }) {
 
     const task = taskList.find(t => t.id === taskId) || null;
     
@@ -127,7 +147,12 @@ export function SelectedTask({ taskList, taskId, onUpdate }) {
             </div>
 
             <div className="flex items-center justify-center w-full mb-4">
-                <CompleteButton id={task.id} complete={task.completed} onUpdate={onUpdate}/>
+                <div className="absolute left-80 bottom-4">
+                    <CompleteButton id={task.id} complete={task.completed} onUpdate={onUpdate}/>
+                </div>
+                <div className="absolute right-80 bottom-4">
+                    <DeleteButton id={task.id} onDelete={onDelete}/>
+                </div>
             </div>
         </div>
     )
