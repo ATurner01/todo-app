@@ -2,7 +2,7 @@
 
 import { setCompleted, deleteTask } from "./actions";
 import { useState, useRef, useEffect } from "react";
-import { useMenu } from "./useMenu";
+import { MenuComponent, menuComponent } from "./menu";
 
 function CompleteButton( { id, complete, onUpdate } ) {
     if (complete) {
@@ -58,38 +58,6 @@ function NoTaskSelected() {
                 <h1 className="flex flex-col items-center justify-center text-6xl font-bold h-full w-full">No task selected</h1>
             </div>
         )
-}
-
-function TaskFilterMenu( { onFilterChange } ) {
-    const [open, setOpen] = useState(false);
-    const menuRef = useRef(null);
-
-    const toggleMenu = () => setOpen(!open);
-
-    useMenu(setOpen, menuRef);
-
-    const options = ["All", "Completed", "Not Completed"];
-
-    return (
-        <div className="relative inline-block" ref={menuRef}>
-            <button onClick={toggleMenu} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                Filter
-            </button>
-
-            {open && (
-                <div className="absolute left-full top-0 ml-2 bg-white border rounded-md shadow-lg w-40">
-                    {options.map((option) => (
-                        <button
-                            key={option}
-                            onClick={() => onFilterChange(option, setOpen)}
-                            className="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                                {option}
-                            </button>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
 }
 
 async function updateTaskCompletion(taskId, completeStatus, onUpdate) {
@@ -153,6 +121,8 @@ export function SelectedTask({ taskList, taskId, onUpdate, onDelete }) {
 export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) {
     const [filter, setFilter] = useState("All");
 
+    const filterOptions = ["All", "Completed", "Incomplete"];
+
     const handleFilterChange = (value, menu) => {
         setFilter(value);
         menu(false);
@@ -168,7 +138,7 @@ export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) 
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
             <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full border-b p-4">
                 <div className="absolute left-4 top-4">
-                    <TaskFilterMenu onFilterChange={handleFilterChange}/>
+                    <MenuComponent name={"Filter"} options={filterOptions} onOptionChange={handleFilterChange}/>
                 </div>
                 <h1 className="text-center text-4xl font-bold underline">       Task List     
                 </h1>
