@@ -69,6 +69,37 @@ export function SelectedTask({ taskList, taskId, onUpdate, onDelete }) {
     )
 }
 
+function TaskListHeader( { filterOptions , handleFilterChange, onRefetch } ) {
+    return (
+        <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full border-b p-4">
+            <div className="absolute left-4 top-4">
+                <MenuComponent name={"Filter"} options={filterOptions} onOptionChange={handleFilterChange}/>
+            </div>
+            <h1 className="text-center text-4xl font-bold underline">       
+                Task List     
+            </h1>
+            <div className="absolute right-4 top-4">
+                <button onClick={onRefetch} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                    Refresh
+                </button>
+            </div>
+        </div>
+    )
+}
+
+function TaskListItems({ displayedTasks , onTaskSelect, selectedTask }) {
+    return (
+        <ul className="list-none">
+            {displayedTasks.map(task => (
+                <li key={task.id} className="" onClick={() => onTaskSelect(task.id)}>
+                    <Task title={task.title} completed={task.completed}
+                    isSelected={selectedTask !== null && selectedTask === task.id ? true : false}/>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
 export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) {
     const [filter, setFilter] = useState("All");
 
@@ -87,26 +118,8 @@ export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) 
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
-            <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full border-b p-4">
-                <div className="absolute left-4 top-4">
-                    <MenuComponent name={"Filter"} options={filterOptions} onOptionChange={handleFilterChange}/>
-                </div>
-                <h1 className="text-center text-4xl font-bold underline">       Task List     
-                </h1>
-                <div className="absolute right-4 top-4">
-                    <button onClick={onRefetch} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
-                        Refresh
-                    </button>
-                </div>
-            </div>
-            <ul className="list-none">
-                {displayedTasks.map(task => (
-                    <li key={task.id} className="" onClick={() => onTaskSelect(task.id)}>
-                        <Task title={task.title} completed={task.completed}
-                        isSelected={selectedTask !== null && selectedTask === task.id ? true : false}/>
-                    </li>
-                ))}
-            </ul>
+            <TaskListHeader filterOptions={filterOptions} handleFilterChange={handleFilterChange} onRefetch={onRefetch} />
+            <TaskListItems displayedTasks={displayedTasks} onTaskSelect={onTaskSelect} selectedTask={selectedTask} />
         </div>
     );
 }
