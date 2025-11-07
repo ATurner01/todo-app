@@ -1,8 +1,8 @@
 'use client';
 
 import { setCompleted, deleteTask } from "./actions";
-import { useState, useRef, useEffect } from "react";
-import { MenuComponent, menuComponent } from "./menu";
+import { useState } from "react";
+import { MenuComponent } from "./menu";
 
 function CompleteButton( { id, complete, onUpdate } ) {
     if (complete) {
