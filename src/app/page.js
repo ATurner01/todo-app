@@ -1,4 +1,4 @@
-import { TodoApp } from "./todo";
+import { TodoApp } from "./components/todo";
 
 export default function App() {
               

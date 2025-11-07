@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTasks } from "./actions";
+import { getTasks } from "../server/actions";
 
 export function useTasks() {
     const [tasks, setTasks] = useState([]);

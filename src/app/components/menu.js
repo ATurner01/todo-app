@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useMenu } from "./useMenu";
+import { useMenu } from "../hooks/useMenu";
 
 export function MenuComponent( {name, options, onOptionChange} ) {
     const [open, setOpen] = useState(false);

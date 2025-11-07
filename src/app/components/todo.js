@@ -3,7 +3,7 @@
 import { TaskList, SelectedTask } from "./task";
 import { CreateTask } from "./create";
 import { useState } from "react";
-import { useTasks } from "./useTasks";
+import { useTasks } from "../hooks/useTasks";
 
 function ListLoading() {
   return (
