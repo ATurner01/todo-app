@@ -2,6 +2,7 @@
 
 import { setCompleted, deleteTask } from "./actions";
 import { useState, useRef, useEffect } from "react";
+import { useMenu } from "./useMenu";
 
 function CompleteButton( { id, complete, onUpdate } ) {
     if (complete) {
@@ -65,16 +66,7 @@ function TaskFilterMenu( { onFilterChange } ) {
 
     const toggleMenu = () => setOpen(!open);
 
-    //Create event listener and function for handling clicks outside of menu
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []); //Only need to run once on mount
+    useMenu(setOpen, menuRef);
 
     const options = ["All", "Completed", "Not Completed"];
 
