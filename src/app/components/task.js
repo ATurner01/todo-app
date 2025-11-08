@@ -69,11 +69,14 @@ export function SelectedTask({ taskList, taskId, onUpdate, onDelete }) {
     )
 }
 
-function TaskListHeader( { filterOptions , handleFilterChange, onRefetch } ) {
+function TaskListHeader( { filterOptions , sortOptions , handleOptionChange , onRefetch } ) {
     return (
         <div className="sticky top-0 bg-gray-100 shadow-md z-10 w-full border-b p-4">
             <div className="absolute left-4 top-4">
-                <MenuComponent name={"Filter"} options={filterOptions} onOptionChange={handleFilterChange}/>
+                <MenuComponent name={"Filter"} options={filterOptions} onOptionChange={handleOptionChange}/>
+            </div>
+            <div className="absolute left-32 top-4">
+                <MenuComponent name={"Sort"} options={sortOptions} onOptionChange={handleOptionChange}/>
             </div>
             <h1 className="text-center text-4xl font-bold underline">       
                 Task List     
@@ -102,11 +105,21 @@ function TaskListItems({ displayedTasks , onTaskSelect, selectedTask }) {
 
 export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) {
     const [filter, setFilter] = useState("All");
+    const [sort, setSort] = useState("Date Created");
 
     const filterOptions = ["All", "Completed", "Incomplete"];
+    const sortOptions = ["Date Created", "Title"];
 
-    const handleFilterChange = (value, menu) => {
-        setFilter(value);
+    const handleOptionChange = (value, menu) => {
+        if (filterOptions.includes(value)) {
+            setFilter(value);
+        }
+
+        if (sortOptions.includes(value)) {
+            setSort(value);
+            console.log("Sorting by:", value);
+        }
+
         menu(false);
     }
 
@@ -118,7 +131,7 @@ export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) 
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
-            <TaskListHeader filterOptions={filterOptions} handleFilterChange={handleFilterChange} onRefetch={onRefetch} />
+            <TaskListHeader filterOptions={filterOptions} sortOptions={sortOptions} handleOptionChange={handleOptionChange} onRefetch={onRefetch} />
             <TaskListItems displayedTasks={displayedTasks} onTaskSelect={onTaskSelect} selectedTask={selectedTask} />
         </div>
     );
