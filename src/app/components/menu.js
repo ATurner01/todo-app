@@ -15,7 +15,7 @@ export function MenuComponent( {name, options, onOptionChange} ) {
             </button>
 
             {open && (
-                <div className="absolute left-full top-0 ml-2 bg-white border rounded-md shadow-lg w-40">
+                <div className="absolute left-full top-0 ml-2 bg-white border rounded-md shadow-lg w-40 z-10">
                     {options.map((option) => (
                         <button
                             key={option}
