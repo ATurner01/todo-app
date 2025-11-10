@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { addTask } from '../server/actions';
+import { addTask } from '../api/_internal/actions';
 
 function CreateTaskForm( { onCreate } ) {
 

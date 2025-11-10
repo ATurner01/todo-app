@@ -1,4 +1,4 @@
-import { setCompleted, deleteTask } from "../server/actions";
+import { setCompleted, deleteTask } from "../api/_internal/actions";
 
 async function updateTaskCompletion(taskId, completeStatus, onUpdate) {
     const res = await setCompleted({ id: taskId, completed: completeStatus });
