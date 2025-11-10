@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MenuComponent } from "./menu";
 import { CompleteButton, DeleteButton } from "./button";
+import { applyFilter, applySort } from "@/lib/utils";
 
 function Task({ title, completed, isSelected }) {
 
@@ -123,11 +124,7 @@ export function TaskList( { taskList, onTaskSelect, selectedTask, onRefetch } ) 
         menu(false);
     }
 
-    const displayedTasks = filter === "All"
-        ? taskList
-        : filter === "Completed"
-            ? taskList.filter(task => task.completed)
-            : taskList.filter(task => !task.completed);
+    const displayedTasks = applySort(applyFilter(taskList, filter), sort);
 
     return (
         <div className="relative flex flex-col items-stretch justify-start border rounded h-screen overflow-y-auto overscroll-contain w-full">
